@@ -1,0 +1,26 @@
+
+name: Docker CI Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build and Verify Docker Image
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Verify required files
+        run: |
+          test -f Dockerfile
+          test -f index.html
+
+      - name: Build Docker image
+        run: docker build -t codsoft-task-1:ci .
